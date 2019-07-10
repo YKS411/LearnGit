@@ -1,0 +1,214 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script type="text/javascript" src="~/js/vue.js"></script>
+    <script type="text/javascript" src="~/js/axios.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <div>
+            <table>
+                <tr>
+
+                    <td><label>编号:</label></td>
+                    <td><input type="text" v-model="student.Id" /></td>
+
+                    <td><label>姓名:</label></td>
+                    <td><input type="text" v-model="student.Name" /></td>
+
+                    <td><label>性别:</label></td>
+                    <td><input type="text" v-model="student.Sex" /></td>
+
+                    <td><label>年龄:</label></td>
+                    <td><input type="text" v-model="student.Age" /></td>
+
+                    <td>
+                        <input type="submit" value="查询" v-on:click="GetStudents(student.Id)" />
+                        <input type="submit" value="更新" v-on:click="UpdateStudents(student.Id,student.Name,student.Sex,student.Age)" />
+                        <input type="submit" value="删除" v-on:click="DeleteStudents(student.Id)" />
+                        <input type="submit" value="添加" v-on:click="CreateStudents(student.Id,student.Name,student.Sex,student.Age)" />
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+
+
+    <div>
+        <table v-show="students.length">
+            <tr>
+                <td>行号</td>
+                <td>编号</td>
+                <td>姓名</td>
+                <td>性别</td>
+                <td>年龄</td>
+            </tr>
+
+            @*<tr v-for="(item,index) in studentss">*@
+            <tr v-for="item in students">
+                @*<td>{{index+1}}</td>*@
+
+                <td>{{item.Id}}</td>
+
+                <td>{{item.Name}}</td>
+
+                <td>{{item.Sex}}</td>
+
+                <td>{{item.Age}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+    <script type="text/javascript">
+    var vm = new Vue({
+        el: "#demo",
+        data: {
+            students: [],
+            student: { Id: '', Name: '', Sex: '', Age: '' }
+        },
+        mounted() {
+            this.GetAllStudents();
+        },
+        methods: {
+            GetAllStudents: function () {
+                axios.get("../Student/GetAllStudents").then(
+                    (response) => {
+                        this.students = [];
+                        for (var i = 0; i < response.data.length; i++) {
+                            this.students.push(response.data[i]);
+                        }
+                        // alert(this.students[0].Age);
+                    },
+                    (response) => {
+                        alert(response.status);
+                    }
+                )
+                    .catch(
+                        function (error) {
+                            alert(error);
+                        }
+                    )
+
+
+            },
+
+            GetStudents: function (_id) {
+                if (_id.length > 0) {
+                    axios.get("../Student/Details", { params: { id: _id } }).then(
+                        (response) => {
+                            this.students = [];
+                            if (response.data != null) {
+                                this.students.push(response.data);
+                            }
+                            else {
+                                alert("数据为空!");
+                            }
+                        },
+                        (response) => {
+                            alert("出现错误!");
+                        }
+                    )
+                        .catch(function (response) {
+                            console.log(response);
+                        });
+                }
+                else {
+                    this.GetAllStudents();
+                }
+            },
+
+            CreateStudents: function (_id, _name, _sex, _age) {
+                var params = new URLSearchParams();
+                params.append('id', _id);
+                params.append('name', _name);
+                params.append('sex', _sex);
+                params.append('age', _age);
+                axios.post("../Student/Create", params).then(
+                    (response) => {
+                        this.students=[];
+                        if (response.data != null) {
+                            for (var i = 0; i < response.data.length; i++) {
+                                this.students.push(response.data[i]);
+                            }
+                        }
+                        else {
+                            alert("参数为空!");
+                        }
+                    },
+                    (response) => {
+                        alert(response.status);
+                    }
+                )
+                    .catch(function (response) {
+                        console.log(response);
+                    });
+            },
+
+            UpdateStudents: function (_id, _name, _sex, _age) {
+                var params = new URLSearchParams();
+                params.append('id', _id);
+                params.append('name', _name);
+                params.append('sex', _sex);
+                params.append('age', _age);
+                axios.post("../Student/Update", params)
+                        .then(
+                            (response) => {
+                                this.students = [];
+                                if (response.data != null) {
+                                    for (var i = 0; i < response.data.length; i++) {
+                                        this.students.push(response.data[i]);
+                                    }
+                                }
+                                else {
+                                    alert("参数为空!");
+                                }
+                            },
+                        (response) => {
+                                alert("出现错误!");
+                            }
+                        )
+                        .catch(function (response) {
+                            console.log(response);
+                        });
+                },
+
+
+            DeleteStudents: function (_id) {
+                var params = new URLSearchParams();
+                params.append('id', _id);
+                axios.post("../Student/Delete", params).then(
+                        (response) => {
+                            this.students = [];
+                            if (response.data != null) {
+                                for (var i = 0; i < response.data.length; i++) {
+                                    this.students.push(response.data[i]);
+                                }
+                            }
+                            else {
+                                alert("数据为空!");
+                            }
+                        },
+                        (response) => {
+                            alert("出现错误!");
+                        }
+                    )
+                        .catch(function (response) {
+                            console.log(response);
+                        });
+                }
+
+            },
+        });
+    </script>
+
+</body>
+</html>

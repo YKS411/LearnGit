@@ -1,0 +1,88 @@
+﻿@*@model IEnumerable<NetCoreBlog.Models.Article>*@
+@model X.PagedList.IPagedList<NetCoreBlog.Models.Article>
+@using X.PagedList.Mvc.Common;
+@using X.PagedList.Mvc.Core;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">新建博文</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Title)*@
+                标题
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Category)*@
+                分类
+            </th>
+            <th>
+                作者
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Views)*@
+                浏览次数
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Recommend)*@
+                推荐位
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CreatedAt)*@
+                创建时间
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ModifiedTime)*@
+                修改时间
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserInfo.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Views)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recommend.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedTime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">修改</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">查看更多</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">删除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page}),
+    new PagedListRenderOptionsBase{ LinkToFirstPageFormat = "首页",
+        LinkToNextPageFormat = "下一页", LinkToPreviousPageFormat = "上一页",
+        LinkToLastPageFormat = "末页", MaximumPageNumbersToDisplay = 4,
+        DisplayItemSliceAndTotal = false }
+    )

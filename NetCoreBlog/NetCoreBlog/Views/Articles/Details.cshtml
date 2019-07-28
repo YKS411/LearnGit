@@ -1,0 +1,124 @@
+﻿@model NetCoreBlog.Models.Article
+@using System.Security.Claims
+
+
+
+@{
+    ViewData["Title"] = "Details";
+    var comment = ViewData["Comments"] as IEnumerable<NetCoreBlog.Models.Comment>;
+}
+
+@*<h2>全文</h2>*@
+
+<div>
+    <h4 style="margin-top:30px;color:green">博文</h4><div><br />
+        <a asp-controller="Home" asp-action="Index">返回</a>
+    </div>
+    <hr />
+    <!-- /主体 -->
+    <div id="main-container" class="container clearfix">
+        <section class="post-left">
+            <div class="breadcrumb">
+                您的位置： <a itemprop="breadcrumb" href="/">首页</a> »
+                @if (Model.CategoryID == null)
+                {
+
+
+                }
+                else
+                {
+                      <a asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryID">@Model.Category.Name</a>
+                    }
+                     »
+                    <span class="current">正文
+                </div>
+            <div class="post-main clearfix">
+                <h1 class="post-title">@Model.Title</h1>
+                <div class="post-con clearfix">
+                    <div class="article-meta">
+                        <span class="item">
+                            分类：
+                            @if (@Model.CategoryID == null)
+                            {
+
+
+                            }
+                            else
+                            {
+                                <a asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryID">@Model.Category.Name</a>
+
+                            }
+                            &nbsp;&nbsp;
+                        </span>
+                        <span class="item">作者：@Model.UserInfo.UserName &nbsp;&nbsp;</span>
+                        <span class="item">浏览：@Model.Views &nbsp;&nbsp;</span>
+                        <span class="item">@Model.ModifiedTime</span>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <article class="article-content">
+                        @Html.DisplayFor(model => model.Content)
+                    </article>
+                 
+                    @*<div>
+                        <div>
+                            <b>上一篇：</b>
+
+                            <a href="show-2.html" class="article-tag">博客列入12家估值飙升互联网创业企业 Quora第一</a>
+
+                        </div>
+                        <div>
+                            <b>下一篇：</b>
+
+                            <a href="show-8.html" class="article-tag">谷歌用户体验设计准则</a>
+
+                        </div>
+                    </div>*@
+
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <hr />
+    <hr />
+    <div>
+        <a style="margin-right:auto;font-size:20px" a asp-controller="Comments" asp-action="Create" asp-route-id="@Model.ID">评论</a>
+    </div>
+
+    <hr />
+    <hr />
+    <div>
+        @if (comment == null)
+        {
+            <label>暂时还没有评论。。。</label>
+
+        }else
+        {
+            @foreach (var cmt in comment)
+            {
+                <label>@cmt.CreatedAt</label><br />
+                @if (Model.UserInfo.UserName == cmt.UserInfo.UserName)
+                {
+                    <img src="@cmt.UserInfo.UserImage" width="80" /><br />
+                    <label style="color:deeppink">(作者)@cmt.UserInfo.UserName:</label>
+                    <label>@cmt.Content</label>
+                }
+                else
+                {
+                    <img src="@cmt.UserInfo.UserImage" width="80" /><br />
+                    <label style="color:forestgreen">@cmt.UserInfo.UserName:</label>
+                    <label>@cmt.Content</label>
+
+                }
+                <hr />
+            }
+
+        }
+
+    </div>
+
+
+
+

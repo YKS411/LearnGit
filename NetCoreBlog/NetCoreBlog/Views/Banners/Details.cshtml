@@ -1,0 +1,42 @@
+﻿@model NetCoreBlog.Models.Banner
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>详情</h2>
+
+<div>
+    <h4>轮播图</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Text_info)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Text_info)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Img)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Img)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Link_url)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Link_url)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Is_active)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Is_active)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">修改</a> |
+    <a asp-action="Index">返回</a>
+</div>

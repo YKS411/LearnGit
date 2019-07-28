@@ -1,0 +1,456 @@
+﻿@using System.Security.Claims
+@model NetCoreBlog.Models.Search
+@{
+    Layout = null;
+    var categories = ViewData["categories"] as IEnumerable<NetCoreBlog.Models.Category>;
+    var banners = ViewData["Banners"] as IEnumerable<NetCoreBlog.Models.Banner>;
+    var recommends = ViewData["Recommends"] as IEnumerable<NetCoreBlog.Models.Article>;
+    var articles = ViewData["Articles"] as IEnumerable<NetCoreBlog.Models.Article>;
+    var hots = ViewData["hots"] as IEnumerable<NetCoreBlog.Models.Article>;
+    var remen = ViewData["rementui"] as IEnumerable<NetCoreBlog.Models.Article>;
+    var tags = ViewData["Tags"] as IEnumerable<NetCoreBlog.Models.Tag>;
+    var links = ViewData["Links"] as IEnumerable<NetCoreBlog.Models.Link>;
+
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-title" content="NetCoreBlog">
+    <title>NetCoreBlog</title>
+    <link rel='stylesheet' href='~/css/bootstrap.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='~/css/font-awesome.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='~/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='~/css/raxus.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='~/css/os.css' type='text/css' media='all' />
+</head>
+<body class="home blog site-layout-2">
+    <!-- 头部 -->
+    <header class="fix-wrap" id="fix-wrap">
+        <div class="fix-main clearfix pr" id="fix-main" _hover-ignore="1">
+            <a href="/" class="index-logo">
+                <img src="~/images/black-logo.png" alt="NetCoreBlog">
+            </a>
+            <nav class="nav fl">
+                <ul id="fix-list" class="fix-list clearfix">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">首页</a></li>
+                    <li><a asp-area="" asp-controller="Articles" asp-action="Index">博文管理</a></li>
+
+                    @if (categories == null)
+                    {
+
+                    }
+                    else
+                    {
+                        @foreach (var category in categories)
+                        {
+                            <li><a asp-area="" asp-controller="Categories" asp-action="Details" asp-route-id="@category.ID">@category.Name</a></li>
+
+                        }
+                    }
+
+                    <li><a href="~/about.html">关于博主</a></li>
+
+                    @if (String.IsNullOrEmpty(User.Claims.FirstOrDefault(s => s.Type == ClaimTypes.NameIdentifier)?.Value))
+                    {
+                        <li><a asp-area="" asp-controller="Login" asp-action="Index">登录</a></li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">您好：@User.Identity.Name<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Login" asp-action="Logout" style="text-align:center">退出</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                </ul>
+            </nav>
+            <form method="get" class="index-search  hidden-xs" asp-action="Search">
+                <input class="text" asp-for="search" type="text" placeholder="文档内容或标题">
+                <button class="submit" type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </header>
+    <div id="main-container" class="container clearfix">
+        <section class="post-left">
+            <div class="row">
+                <!-- 首页推荐 -->
+                <div class="col-md-6">
+                    <div class="hotread ">
+                        <div class="title">推荐阅读</div>
+                        @if (recommends == null)
+                        {
+
+                        }
+                        else
+                        {
+
+                            @foreach (var t in recommends)
+                            {
+                                <div class="caption">
+                                    <h4><a asp-controller="Articles" asp-action="Details" asp-route-id="@t.ID" title="@t.Title" rel="bookmark">@t.Title</a></h4>
+                                    <p>@t.Excerpt</p>
+                                </div>
+                            }
+
+
+                        }
+
+                    </div>
+                </div>
+                <!-- /banner图 -->
+                <div class="col-md-6">
+                    <div id="featured" class="raxus-slider" data-autoplay="3000" data-keypress="false"
+                         data-thumbnail="bottom">
+                        <ul class="slider-relative" id="relative">
+                            @if (banners == null)
+                            {
+
+
+                            }
+                            else
+                            {
+                                @foreach (var b in banners)
+                                {
+                                    <li class="slide fix-width">
+                                        <a href="@b.Link_url" title="@b.Text_info">
+                                            <img src="@b.Img" srcset="@b.Img" alt="@b.Text_info"
+                                                 class="wp-post-image" width="370" height="290" />
+                                        </a>
+                                        <span class="text ani-left"><strong>@b.Text_info</strong></span>
+                                    </li>
+                                }
+
+                            }
+
+
+                    </div>
+                </div>
+                <!-- /banner图 -->
+                <!-- /今日头条 -->
+            </div>
+            <!-- /文章列表 -->
+            <div class="index-main clearfix">
+                <div class="main-title">
+                    <h4 class="post-left-title fl">最新文章</h4>
+                    <div class="fr"></div>
+                </div>
+                <div class="row">
+                    @if (articles == null)
+                    {
+
+
+                    }
+                    else
+                    {
+                        @foreach (var a in articles)
+                        {
+                            <div class="clearfix glyphicon-inbox">
+                                <div class="col-md-4">
+                                    <div class="img-thumbnail">
+                                        <a asp-controller="Articles" asp-action="Details" asp-route-id="@a.ID" title="@a.Title">
+                                            <img src="@a.Img"
+                                                 srcset="@a.Img"
+                                                 alt="@a.Title" class="img-rounded" width="240" height="160" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h2><a asp-controller="Articles" asp-action="Details" asp-route-id="@a.ID" target="_blank" title="@a.Title">@a.Title</a></h2>
+                                    <p class="txtcont hidden-xs">
+                                        <a asp-controller="Articles" asp-action="Details" asp-route-id="@a.ID" target="_blank"
+                                           title="@a.Title">@a.Excerpt</a>
+                                    </p>
+                                    <div class="meta">
+                                        <span class="label label-info">
+                                            @if (a.CategoryID == null || a.Category == null)
+                                            {
+
+
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Categories" asp-action="Details" asp-route-id="@a.CategoryID">@a.Category.Name</a>
+
+                                            }
+
+                                        </span>
+                                        <time class="item">
+                                            <i></i>&nbsp;&nbsp; @a.CreatedAt
+                                        </time>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+
+                </div>
+                <!-- /文章列表 -->
+        </section>
+        <!-- /post-left -->
+        <!-- /post-right -->
+        <aside class="post-right hidden-xs">
+            </section>
+            <section class="widget post-right-item">
+                <h4 class="post-right-title">热门文章排行</h4>
+                <ol class="hot-list">
+
+                    @if (hots == null)
+                    {
+
+
+                    }
+                    else
+                    {
+                        @foreach (var hot in hots)
+                        {
+                            <li><a asp-controller="Articles" asp-action="Details" asp-route-id="@hot.ID" title="@hot.Title">@hot.Title</a></li>
+                        }
+
+
+                    }
+
+
+                </ol>
+            </section>
+            </section>
+            </section>
+
+
+            <section class="widget post-right-item">
+                <h4 class="post-right-title">热门推荐</h4>
+                <ul class="post-hot clearfix">
+
+                    @if (remen == null)
+                    {
+
+
+                    }
+                    else
+                    {
+                        @foreach (var r in remen)
+                        {
+                            <li>
+                                <div class="img">
+                                    <a asp-controller="Articles" asp-action="Details" asp-route-id="@r.ID" title="@r.Title">
+                                        <img src="@r.Img"
+                                             srcset="@r.Img" alt="@r.Title"
+                                             class="wp-post-image" width="120"
+                                             height="80" />
+                                    </a>
+                                </div>
+                                <div class="text">
+                                    <a asp-controller="Articles" asp-action="Details" asp-route-id="@r.ID" title="@r.Title" target="_blank">@r.Title</a>
+                                </div>
+                            </li>
+                        }
+
+                    }
+
+
+                </ul>
+            </section>
+            </section>
+            <section class="widget post-right-item">
+                <h4 class="post-right-title">所有标签</h4>
+                <div class="tags">
+                    @if (tags == null)
+                    {
+
+
+                    }
+                    else
+                    {
+                        @foreach (var tag in tags)
+                        {
+                            <a asp-controller="Tags" asp-action="Details" asp-route-id="@tag.ID">@tag.Name</a>
+                        }
+
+                    }
+
+
+                </div>
+            </section>
+            </section><!-- /关注我们 -->
+            @*<div class="post-right-item">
+                    <h4 class="post-right-title">关注我们</h4>
+                    <div class="wid-about">
+                        <p>拓普Python学院，欢迎关注！</p>
+                        <img src="static/picture/weixinqr.jpg" alt="微信二维码-互联网的一些事" width="160" height="160">
+                    </div>
+                    <div class="wid-about">
+                        <p><strong>联系方式:</strong></p>
+                        <p>QQ:445813</p>
+                        <p>Email：445813@qq.com</p>
+                    </div>
+                </div>*@
+        </aside>
+        <div class="FriendLink hidden-xs clearfix">
+            <div class="title"><h3>友情链接：</h3></div>
+            <ul class="clears">
+                @if (links == null)
+                {
+
+
+                }
+                else
+                {
+
+                    @foreach (var link in links)
+                    {
+                        <li><a href="@link.URLFiled" target="_blank">@link.Name</a></li>
+                    }
+                }
+
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+
+    <div class="container body-content">
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - NetCoreBlog</p>
+        </footer>
+    </div>
+
+    <script src="static/js/bundle.js"></script>
+    <script type="text/javascript" src="~/js/view-history.js"></script>
+    <script type='text/javascript' src="~/js/push.js"></script>
+    <script type='text/javascript' src='~/js/jquery.min.js'></script>
+    <script type='text/javascript' src='~/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='~/js/raxus-slider.min.js'></script>
+    <script type='text/javascript' src='~/js/loader.js'></script>
+    <script type='text/javascript' src='~/js/bj-lazy-load.min.js'></script>
+    <script type='text/javascript' src='~/js/os.js'></script>
+</body>
+</html>
+
+
+
+
+
+@*@using System.Security.Claims
+
+    @{
+        Layout = null;
+        var categories = ViewData["categories"] as IEnumerable<NetCoreBlog.Models.Category>;
+        var banners = ViewData["Banners"] as IEnumerable<NetCoreBlog.Models.Banner>;
+    }
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - NetCoreBlog</title>
+
+        <environment include="Development">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>
+    </head>
+
+    <body>
+        <header class="navbar-fixed-top" id="fix-top">
+            <div class="clearfix" id="fix-main">
+                <a href="/">
+                    <img src="~/images/blank-logo.png" alt="GitHub" />
+                </a>
+
+                <nav class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">NetCoreBlog</a>
+                        </div>
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a asp-area="" asp-controller="Home" asp-action="Index" style="color:lightblue">首页</a></li>
+                                <li><a asp-area="" asp-controller="Articles" asp-action="Index">博文管理</a></li>
+
+                                @foreach (var category in categories)
+                                {
+                                    <li><a asp-area="" asp-controller="Categories" asp-action="Details" asp-route-id="@category.ID">@category.Name</a></li>
+
+                                }
+
+                                @if (String.IsNullOrEmpty(User.Claims.FirstOrDefault(s => s.Type == ClaimTypes.NameIdentifier)?.Value))
+                                {
+                                    <li><a asp-area="" asp-controller="Login" asp-action="Index">登录</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-area="" asp-controller="Login" asp-action="Logout">退出</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+
+
+
+
+
+
+
+
+
+        <partial name="_CookieConsentPartial" />
+
+        <div class="container body-content">
+            <hr />
+            <footer>
+                <p>&copy; 2018 - NetCoreBlog</p>
+            </footer>
+        </div>
+
+        <environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>
+
+    </body>
+    </html>*@
+
+

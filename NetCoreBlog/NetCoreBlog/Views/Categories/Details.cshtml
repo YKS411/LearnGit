@@ -1,0 +1,46 @@
+﻿@model X.PagedList.IPagedList<NetCoreBlog.Models.Article>
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Common
+
+@{
+    ViewData["Title"] = "分类";
+    var category = ViewData["Category"] as NetCoreBlog.Models.Category;
+    //var articles = ViewData["Articles"] as X.PagedList.IPagedList<NetCoreBlog.Models.Article>;
+}
+
+<div>
+    <h4 style="margin-top:30px;color:green">分类：@category.Name</h4><br />
+    <a asp-controller="Home" asp-action="Index">返回</a>
+    <hr />
+
+    @foreach (var item in Model)
+    {
+        <div class="clearfix glyphicon-inbox">
+            <div class="col-md-4">
+                <div class="img-thumbnail">
+                    <a asp-controller="Articles" asp-action="Details" asp-route-id="@item.ID" title="@item.Title">
+                        <img src="@item.Img" srcset="@item.Img" alt="@item.Title" class="img-rounded" width="240" height="160" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h2><a asp-controller="Articles" asp-action="Details" asp-route-id="@item.ID" title="@item.Title">@item.Title</a></h2>
+                <p><a asp-controller="Articles" asp-action="Details" asp-route-id="@item.ID" title="@item.Title">@item.Excerpt</a></p>
+                <div>
+                    <span><a asp-controller="Articles" asp-action="Details" asp-route-id="@item.ID" style="font-size:18px;color:deeppink">@category.Name</a>&nbsp;&nbsp;</span>
+                    <time><i>@item.CreatedAt</i></time>
+                </div>
+            </div>
+        </div>
+        <hr />
+    }
+
+</div>
+
+
+@Html.PagedListPager(Model, page => Url.Action("Details", new { page}),
+    new PagedListRenderOptionsBase{ LinkToFirstPageFormat = "首页",
+        LinkToNextPageFormat = "下一页", LinkToPreviousPageFormat = "上一页",
+        LinkToLastPageFormat = "末页", MaximumPageNumbersToDisplay = 4,
+        DisplayItemSliceAndTotal = false }
+    )

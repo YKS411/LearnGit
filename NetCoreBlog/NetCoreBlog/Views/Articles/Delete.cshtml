@@ -1,0 +1,81 @@
+﻿@model NetCoreBlog.Models.Article
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>删除</h2>
+
+<h3 style="color:red">确定删除吗？</h3>
+<div>
+    <h4>博文</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Excerpt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Excerpt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Img)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Img)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserInfo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserInfo.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Views)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Views)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Recommend)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Recommend.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedTime)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="删除" class="btn btn-default" /> |
+        <a asp-action="Index">返回</a>
+    </form>
+</div>

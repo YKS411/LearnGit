@@ -1,0 +1,96 @@
+﻿@model NetCoreBlog.Models.Article
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>修改</h2>
+
+<h4>博文</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Excerpt" class="control-label"></label>
+                <textarea asp-for="Excerpt" class="form-control"></textarea>
+                <span asp-validation-for="Excerpt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+            @*当前图片*@
+            <div class="form-group">
+                <label asp-for="Img" class="control-label"></label>
+
+                @if (@Model.Img != null)
+                {
+                    <img src="@Model.Img" width="100" />
+                }
+                <input asp-for="Img" class="form-control" style="display:none" />
+                <span asp-validation-for="Img" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImgPath" class="control-label"></label>
+                <input type="file" asp-for="ImgPath" class="form-control" />
+                <span asp-validation-for="ImgPath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" style="height:500px;width:800px"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInfoID" class="control-label"></label>
+                <select asp-for="UserInfoID" class="form-control" asp-items="ViewBag.UserInfoID"></select>
+                <span asp-validation-for="UserInfoID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Views" class="control-label"></label>
+                <input asp-for="Views" class="form-control" />
+                <span asp-validation-for="Views" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecommendID" class="control-label"></label>
+                <select asp-for="RecommendID" class="form-control" asp-items="ViewBag.RecommendID"></select>
+                <span asp-validation-for="RecommendID" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+            <label asp-for="CreatedAt" class="control-label"></label>
+            <input asp-for="CreatedAt" class="form-control" />
+            <span asp-validation-for="CreatedAt" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="display:none">
+            <label asp-for="ModifiedTime" class="control-label"></label>
+            <input asp-for="ModifiedTime" class="form-control" />
+            <span asp-validation-for="ModifiedTime" class="text-danger"></span>
+        </div>
+            <div class="form-group">
+                <input type="submit" value="保存" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">返回</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/ueditor-1.4.3.3/ueditor.config.js"></script>
+    <script src="~/lib/ueditor-1.4.3.3/ueditor.all.min.js"></script>
+    <script type="text/javascript">
+        var ue = UE.getEditor('Content', {
+            initialFrameHeight: 500
+        });</script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

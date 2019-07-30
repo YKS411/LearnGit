@@ -1,0 +1,14 @@
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\bin\Debug\netcoreapp2.2\TimeJobDemo.deps.json
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\bin\Debug\netcoreapp2.2\TimeJobDemo.runtimeconfig.json
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\bin\Debug\netcoreapp2.2\TimeJobDemo.runtimeconfig.dev.json
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\bin\Debug\netcoreapp2.2\TimeJobDemo.dll
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.RazorAssemblyInfo.cache
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.RazorAssemblyInfo.cs
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.RazorTargetAssemblyInfo.cache
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\bin\Debug\netcoreapp2.2\TimeJobDemo.pdb
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.dll
+C:\Users\Administrator\Desktop\TimeJobDemo\TimeJobDemo\obj\Debug\netcoreapp2.2\TimeJobDemo.pdb
